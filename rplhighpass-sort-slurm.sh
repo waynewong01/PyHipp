@@ -11,6 +11,10 @@
 ## /SBATCH -p general # partition (queue)
 #SBATCH -o rplhp-slurm.%N.%j.out # STDOUT
 #SBATCH -e rplhp-slurm.%N.%j.err # STDERR
+/data/miniconda3/bin/conda init
+source ~/.bashrc
+envarg=`/data/src/PyHipp/envlist.py`
+conda activate $envarg
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 python -u -c "import PyHipp as pyh; \
@@ -21,3 +25,7 @@ mountain_batch.mountain_batch(); \
 from PyHipp import export_mountain_cells; \
 export_mountain_cells.export_mountain_cells(); \
 print(time.localtime());"
+
+conda deactivate
+/data/src/PyHipp/envlist.py $envarg
+
